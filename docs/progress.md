@@ -15,11 +15,18 @@ Live build log for v0.1.0 (overnight-execution checkpoint file).
 - [x] Fixture agent framework (13 modes) + fixtures (live + synthetic)
 - [x] Unit + integration tests incl. dogfood
 - [x] Docs (9 files) + README + CI + packaging
-- [ ] Full quality gate (pytest/ruff/mypy/build/wheel smoke) — running
-- [ ] Fixture dogfood via installed CLI
-- [ ] Zero-cost live detection (hermes/codex/claude installed; zero/opencode/gemini absent)
+- [x] Full quality gate (pytest/ruff/mypy/build/wheel smoke) — green locally
+  - pytest: 80 passed; ruff: clean; mypy: clean; build + wheel smoke: ok
+- [x] Fixture dogfood via installed CLI — SUCCESS, patch+fingerprint verified,
+  dirty/untracked preserved, no secret leakage
+- [x] Zero-cost live detection: hermes 0.20.3 SUPPORTED/auth READY,
+  codex 0.147.0 SUPPORTED/auth READY, claude 2.1.198 SUPPORTED/auth UNKNOWN
+  (honest); zero/opencode/gemini not installed (UNAVAILABLE, pending)
+- [x] Live inference NOT run (paid) — reported as LIVE_INFERENCE_NOT_RUN
+- [x] Fixed during build: missing child-output pipes; filtered env dropped
+  home vars (broke hermes auth probe); duplicate DIRTY warning; CI bash fix
 - [ ] ReproBox / CodeTrials / PatchBench joint checks (pending availability)
-- [ ] GitHub repo create + push + Actions green
+- [x] GitHub repo created + pushed + Actions green (win/linux/macos)
 
 ## Live agent notes (build machine, Windows)
 
