@@ -1,0 +1,5 @@
+Hermes Agent v0.20.3 (2026.8.16.2)
+Install directory: C:\Users\shaha\AppData\Local\hermes\hermes-agent
+Python: 3.11.15
+OpenAI SDK: 2.24.0
+Run 'hermes version' for update status.

@@ -1,0 +1,2 @@
+# SYNTHETIC fixture — gemini CLI was NOT installed at build time.
+gemini version 0.9.9

@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sklab-agent-adapters"
+version = "0.1.0"
+description = "One normalized interface for running, inspecting, and controlling coding agents from SKLab."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.12"
+authors = [{ name = "SKLab Studio" }]
+keywords = ["agents", "cli", "coding-assistant", "interoperability", "sklab"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development",
+]
+dependencies = [
+  "typer>=0.12",
+  "rich>=13",
+  "pydantic>=2",
+  "PyYAML>=6",
+]
+
+[project.urls]
+Homepage = "https://github.com/sklabstudio/agent-adapters"
+Repository = "https://github.com/sklabstudio/agent-adapters"
+Issues = "https://github.com/sklabstudio/agent-adapters/issues"
+
+[project.scripts]
+sklab-agents = "sklab_agent_adapters.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "S", "C4", "DTZ", "TID", "PLW"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*" = ["S101", "S603", "S607", "S105", "DTZ", "PLW", "TID"]
+"tests/fake_agents/**/*" = ["S101", "S603", "S607", "DTZ", "PLW", "TID", "E", "F", "I", "UP", "B", "C4"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = false
+ignore_missing_imports = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_errors = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

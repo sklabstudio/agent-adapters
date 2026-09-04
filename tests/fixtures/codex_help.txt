@@ -1,0 +1,20 @@
+Run Codex non-interactively
+
+Usage: codex exec [OPTIONS] [PROMPT]
+       codex exec [OPTIONS] <COMMAND> [ARGS>
+
+Options:
+  -m, --model <MODEL>
+          Model the agent should use
+  -s, --sandbox <SANDBOX_MODE>
+          Select the sandbox policy [possible values: read-only, workspace-write, danger-full-access]
+  -C, --cd <DIR>
+          Tell the agent to use the specified directory as its working root
+      --skip-git-repo-check
+          Allow running Codex outside a Git repository
+      --json
+          Print events to stdout as JSONL
+  -i, --image <FILE>...
+          Optional image(s) to attach to the initial prompt
+Commands:
+  resume  Resume a previous session by id or pick the most recent with --last

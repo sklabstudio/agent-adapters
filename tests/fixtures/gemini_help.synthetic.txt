@@ -1,0 +1,11 @@
+# SYNTHETIC fixture — gemini CLI was NOT installed at build time.
+Usage: gemini [options] [prompt]
+
+Options:
+  -p, --prompt <text>       Run non-interactively with the given prompt
+  --model <model>           Model to use
+  --output-format <format>  text | json | stream-json
+  --resume <id>             Resume a previous session
+
+Commands:
+  mcp                       Manage MCP servers

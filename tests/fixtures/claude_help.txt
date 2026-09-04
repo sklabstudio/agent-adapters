@@ -1,0 +1,27 @@
+Usage: claude [options] [command] [prompt]
+
+Claude Code - starts an interactive session by default, use -p/--print for
+non-interactive output
+
+  -p, --print                       Print response and exit (non-interactive)
+  --output-format <format>          Output format (only works with --print):
+                                    "text" (default), "json" (single
+                                    result), or "stream-json" (realtime
+  --model <model>                   Model for the current session.
+  -r, --resume [value]              Resume a conversation by session ID
+  -c, --continue                    Continue the most recent conversation
+  --session-id <uuid>               Use a specific session ID
+  --add-dir <directories...>        Additional directories to allow tool access
+  --allowedTools <tools...>         Comma or space-separated list of tool names
+  --disable-slash-commands          Disable all skills
+  --mcp-config <configs...>         Load MCP servers from JSON files
+  --tools <tools...>                Specify the list of available tools from
+                                    the built-in set (e.g. "Bash,Edit,Read").
+  --agent <agent>                   Agent for the current session.
+  --agents <json>                   JSON object defining custom agents
+  -w, --worktree [name]             Create a new git worktree for this session
+
+Commands:
+  auth                              Manage authentication
+  doctor                            Check the health of your Claude Code
+  mcp                               Configure and manage MCP servers

@@ -1,0 +1,4 @@
+# SYNTHETIC fixture — opencode CLI was NOT installed at build time.
+# Shape is a plausible placeholder for parser tests only; live output will differ.
+# Marked so future live capture can replace it.
+opencode 1.2.3

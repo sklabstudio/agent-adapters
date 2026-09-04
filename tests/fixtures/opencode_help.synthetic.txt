@@ -1,0 +1,13 @@
+# SYNTHETIC fixture — opencode CLI was NOT installed at build time.
+Usage: opencode run [options] [message]
+
+Options:
+  --model <model>      Model to use
+  --session <id>       Session to resume
+  --continue           Continue the most recent session
+  --format json        Machine-readable output
+
+Commands:
+  run                  Run a task non-interactively
+  auth                 Manage authentication
+  models               List models

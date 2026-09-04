@@ -1,0 +1,5 @@
+# SYNTHETIC fixture — zero CLI was NOT installed at build time.
+Usage: zero [options] [command]
+
+Commands:
+  run                  Run a prompt non-interactively

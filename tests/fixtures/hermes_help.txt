@@ -1,0 +1,24 @@
+usage: hermes [-h] [--version] [-z PROMPT] [--usage-file PATH] [-m MODEL]
+              [--provider PROVIDER] [--reasoning LEVEL] [-t TOOLSETS]
+              [--resume SESSION] [--no-restore-cwd] [--in DIR]
+              [--continue [SESSION_NAME]] [--worktree] [--accept-hooks]
+              [--skills SKILLS] [--yolo] [--pass-session-id]
+              [--ignore-user-config] [--ignore-rules] [--safe-mode] [--tui]
+              [--cli] [--dev]
+              {chat,model,...,auth,status,...,doctor,...,skills,...,mcp,sessions,...,version,...}
+              ...
+
+Hermes Agent - AI assistant with tool-calling capabilities
+
+  -z PROMPT, --oneshot PROMPT
+                        One-shot mode: send a single prompt and print ONLY the
+                        final response text to stdout. No banner, no spinner,
+                        no tool previews, no session_id line. Tools, memory,
+                        rules, and AGENTS.md in the CWD are loaded as normal;
+                        approvals are auto-bypassed. Intended for scripts /
+                        pipes.
+  --usage-file PATH     One-shot mode only: after the run, write a JSON usage
+                        report (estimated cost, token counts, model,
+                        api_calls) to PATH.
+  -m MODEL, --model MODEL
+                        Model override for this invocation

@@ -1,0 +1,28 @@
+# Example sklab-agents.yaml — copy to sklab-agents.yaml and adjust.
+schema_version: 1
+
+agents:
+  # Override the detected executable for a built-in adapter.
+  hermes:
+    executable: hermes
+
+  zero:
+    executable: zero
+
+  # A custom agent via the generic command adapter.
+  my-agent:
+    adapter: command
+    command:
+      - my-agent
+      - run
+      - "{instruction}"
+    capabilities:
+      files_read: true
+      files_write: true
+      shell: true
+      non_interactive: true
+      session_resume: false
+
+runtime:
+  timeout_seconds: 1800
+  max_log_bytes: 1048576

@@ -1,0 +1,2 @@
+# SYNTHETIC fixture — zero CLI was NOT installed at build time.
+zero version 0.0.0-unknown
