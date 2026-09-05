@@ -1,4 +1,4 @@
-"""OpenCode adapter — PROVISIONAL (opencode CLI not installed, 2026-09-04).
+"""OpenCode adapter — live-probed against the official 1.18.29 CLI.
 
 Public documented behavior used (conservatively, all help-probed at runtime):
 - ``opencode run "<message>"`` non-interactive task run
@@ -27,7 +27,7 @@ class OpenCodeAdapter(AgentAdapter):
     display_name = "OpenCode"
     homepage = "https://github.com/sst/opencode"
     executable_candidates = ["opencode", "opencode.exe", "opencode.cmd"]
-    known_versions = ()
+    known_versions = ("1.18.29",)
     native_install_hint = (
         "Install OpenCode (https://opencode.ai), then `opencode auth login`."
     )
@@ -62,22 +62,26 @@ class OpenCodeAdapter(AgentAdapter):
         return caps
 
     def get_auth_status(self) -> AuthResult:
-        if "auth" in self._help().lower():
-            try:
-                run = self._run_probe(["auth", "status"], timeout=30)
-            except Exception:
-                try:
-                    run = self._run_probe(["auth"], timeout=30)
-                except Exception:
-                    return AuthResult(self.agent_id, AuthState.AUTH_UNKNOWN, "auth probe failed")
-            blob = ((run.stdout or "") + "\n" + (run.stderr or "")).lower()
-            if any(s in blob for s in ("logged in", "authenticated", "ready", "active")):
-                return AuthResult(self.agent_id, AuthState.READY, "native auth reported active")
-            if any(s in blob for s in ("not logged in", "not authenticated", "no auth", "missing")):
-                return AuthResult(self.agent_id, AuthState.NOT_AUTHENTICATED,
-                                  "native auth not present", login_hint="opencode auth login")
+        if "auth" not in self._help().lower():
+            return AuthResult(self.agent_id, AuthState.AUTH_UNKNOWN,
+                              "native auth command not advertised")
+        try:
+            # OpenCode exposes credential state through `auth list`; `auth status`
+            # is not an official command and must not be guessed.
+            run = self._run_probe(["auth", "list"], timeout=30)
+        except Exception:
+            return AuthResult(self.agent_id, AuthState.AUTH_UNKNOWN, "auth probe failed")
+        blob = ((run.stdout or "") + "\n" + (run.stderr or "")).strip()
+        low = blob.lower()
+        if run.exit_code == 0 and any(
+            marker in low for marker in ("0 credentials", "no credentials", "not configured")
+        ):
+            return AuthResult(self.agent_id, AuthState.NOT_AUTHENTICATED,
+                              "native auth not present", login_hint="opencode auth login")
+        if run.exit_code == 0 and "credential" in low:
+            return AuthResult(self.agent_id, AuthState.READY, "native auth reported active")
         return AuthResult(self.agent_id, AuthState.AUTH_UNKNOWN,
-                          "opencode CLI not verified; respect Zen/Go/free-model quotas")
+                          "native auth state could not be determined")
 
     def list_models(self) -> ModelsResult:
         return ModelsResult(self.agent_id, "unknown",
@@ -94,6 +98,10 @@ class OpenCodeAdapter(AgentAdapter):
         argv = [executable, "run", request.instruction]
         if request.model and self._supports("--model"):
             argv += ["--model", request.model]
+        if request.stream and self._supports("--format") and not any(
+            a == "--format" or a.startswith("--format=") for a in request.extra_args
+        ):
+            argv += ["--format", "json"]
         session_flags = ("--continue", "--session", "--resume")
         if request.resume and request.session_id and self._supports(*session_flags):
             if self._supports("--session"):
