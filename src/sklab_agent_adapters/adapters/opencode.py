@@ -13,6 +13,7 @@ stays unknown until live verification.
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 from sklab_agent_adapters.adapters.base import AgentAdapter, AuthResult, ModelsResult
@@ -62,6 +63,10 @@ class OpenCodeAdapter(AgentAdapter):
         return caps
 
     def get_auth_status(self) -> AuthResult:
+        data_root = Path(os.environ.get("XDG_DATA_HOME", "~/.local/share")).expanduser()
+        if not (data_root / "opencode" / "auth.json").is_file():
+            return AuthResult(self.agent_id, AuthState.NOT_AUTHENTICATED,
+                              "native auth not present", login_hint="opencode auth login")
         if "auth" not in self._help().lower():
             return AuthResult(self.agent_id, AuthState.AUTH_UNKNOWN,
                               "native auth command not advertised")
